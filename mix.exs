@@ -10,6 +10,7 @@ defmodule Coin.MixProject do
       compilers: [:gettext] ++ Mix.compilers(),
       start_permanent: Mix.env() == :prod,
       aliases: aliases(),
+      test_coverage: [ignore_modules: cover_ignore()],
       deps: deps()
     ]
   end
@@ -61,6 +62,25 @@ defmodule Coin.MixProject do
       "ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs"],
       "ecto.reset": ["ecto.drop", "ecto.setup"],
       test: ["ecto.drop","ecto.create --quiet", "ecto.migrate --quiet", "test"]
+    ]
+  end
+
+  defp cover_ignore() do
+    [
+      Coin,
+      Coin.Repo,
+      Coin.DataCase,
+      Coin.Mailer,
+      Coin.Factory,
+      Coin.Application,
+      CoinWeb,
+      CoinWeb.Gettext,
+      CoinWeb.ConnCase,
+      Coin.UserFactory,
+      CoinWeb.ErrorHelpers,
+      CoinWeb.ChannelCase,
+      CoinWeb.Telemetry,
+      CoinWeb.Router,
     ]
   end
 end
