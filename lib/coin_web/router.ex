@@ -7,6 +7,8 @@ defmodule CoinWeb.Router do
 
   scope "/api", CoinWeb do
     pipe_through :api
+
+    resources "/users", UserController, only: [:update, :create, :delete, :index, :show]
   end
 
   # Enables LiveDashboard only for development
