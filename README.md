@@ -38,6 +38,24 @@ It’s a RESTfull API that converts currencies to others. Currently, the convers
   }
   ```
 
+  - Edit user ( put /api/users/:id )
+  ```
+  {
+    "user": {
+      "email": "nini@gmail.com",
+      "name": "nini"
+    }
+  }
+
+  ```
+
+
+  ```
+
+  - Delete user (delete /api/users/:id )
+
+  ```
+
  - create transactions (post /api/transactions)
   ```
   {
