@@ -52,7 +52,7 @@ defmodule Coin.Accounts do
 
   """
   @spec create_user(map()) :: {:ok, %User{}} | {:error, %Ecto.Changeset{}}
-  def create_user(attrs \\ %{}) do
+  def create_user(attrs) do
     %User{}
     |> User.changeset(attrs)
     |> Repo.insert()
