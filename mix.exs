@@ -45,6 +45,7 @@ defmodule Coin.MixProject do
       {:gettext, "~> 0.18"},
       {:jason, "~> 1.2"},
       {:ex_machina, "~> 2.7.0"},
+      {:credo, "~> 1.6", only: [:dev, :test], runtime: false},
       {:faker, "~> 0.17", only: :test},
       {:plug_cowboy, "~> 2.5"}
     ]

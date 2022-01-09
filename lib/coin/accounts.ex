@@ -4,8 +4,8 @@ defmodule Coin.Accounts do
   """
 
   import Ecto.Query, warn: false
-  alias Coin.Repo
 
+  alias Coin.Repo
   alias Coin.Accounts.User
 
   @doc """
@@ -17,7 +17,7 @@ defmodule Coin.Accounts do
       [%User{}, ...]
 
   """
-  @spec list_users() :: [%User{}]
+  @spec list_users() :: [User.t()]
   def list_users do
     Repo.all(User)
   end
@@ -36,7 +36,7 @@ defmodule Coin.Accounts do
       ** (Ecto.NoResultsError)
 
   """
-  @spec get_user!(Integer.t() | String.t()) :: %User{} | no_return
+  @spec get_user!(Integer.t() | String.t()) :: User.t() | no_return
   def get_user!(id), do: Repo.get!(User, id)
 
   def get_user(id) do
@@ -58,7 +58,7 @@ defmodule Coin.Accounts do
       {:error, %Ecto.Changeset{}}
 
   """
-  @spec create_user(map()) :: {:ok, %User{}} | {:error, %Ecto.Changeset{}}
+  @spec create_user(map()) :: {:ok, User.t()} | {:error, Ecto.Changeset.t()}
   def create_user(attrs) do
     %User{}
     |> User.changeset(attrs)
@@ -77,7 +77,7 @@ defmodule Coin.Accounts do
       {:error, %Ecto.Changeset{}}
 
   """
-  @spec update_user(%User{}, map()) :: {:ok, %User{}} | {:error, %Ecto.Changeset{}}
+  @spec update_user(User.t(), map()) :: {:ok, User.t()} | {:error, Ecto.Changeset.t()}
   def update_user(%User{} = user, attrs) do
     user
     |> User.changeset(attrs)
@@ -96,7 +96,7 @@ defmodule Coin.Accounts do
       {:error, %Ecto.Changeset{}}
 
   """
-  @spec delete_user(%User{}) :: {:ok, %User{}} | {:error, %Ecto.Changeset{}}
+  @spec delete_user(User.t()) :: {:ok, User.t()} | {:error, Ecto.Changeset.t()}
   def delete_user(%User{} = user) do
     Repo.delete(user)
   end
