@@ -28,7 +28,7 @@ It’s a RESTfull API that converts currencies to others. Currently, the convers
 
 ### Endpoint
 
- - Create user ( post /api/sign_up )
+ - Create user ( post /api/users )
   ```
   {
     "user": {

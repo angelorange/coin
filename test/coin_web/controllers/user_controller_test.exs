@@ -1,8 +1,6 @@
 defmodule CoinWeb.UserControllerTest do
   use CoinWeb.ConnCase, async: true
 
-  alias Coin.Accounts.User
-
   import Coin.Factory
 
   setup %{conn: conn} do
@@ -13,6 +11,13 @@ defmodule CoinWeb.UserControllerTest do
     test "lists all users", %{conn: conn} do
       conn = get(conn, Routes.user_path(conn, :index))
       assert json_response(conn, 200)["data"] == []
+    end
+  end
+
+  describe "show" do
+    test "a error when get a user that doenst exist", %{conn: conn} do
+      conn = get(conn, "/api/users/0")
+      assert expected = json_response(conn, 404)
     end
   end
 
@@ -40,13 +45,14 @@ defmodule CoinWeb.UserControllerTest do
   describe "update user" do
     setup [:create_user]
 
-    test "renders user when data is valid", %{conn: conn, user: %User{id: id} = user} do
+    test "renders user when data is valid", %{conn: conn, user: user} do
       params = %{
         name: user.name,
         email: user.email
       }
 
       conn = put(conn, Routes.user_path(conn, :update, user), user: params)
+
       assert expected = json_response(conn, 200)["data"]
       assert expected["name"] == params.name
     end
@@ -67,10 +73,6 @@ defmodule CoinWeb.UserControllerTest do
     test "deletes chosen user", %{conn: conn, user: user} do
       conn = delete(conn, Routes.user_path(conn, :delete, user))
       assert response(conn, 204)
-
-      assert_error_sent 404, fn ->
-        get(conn, Routes.user_path(conn, :show, user))
-      end
     end
   end
 
