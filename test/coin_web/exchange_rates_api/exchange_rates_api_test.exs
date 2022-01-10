@@ -1,6 +1,7 @@
 defmodule CoinWebExchangeRatesApiTest do
 	use Coin.DataCase
 	alias CoinWebExchangeRatesApi, as: Api
+  import ExUnit.CaptureLog
 
   setup do
     Tesla.Mock.mock(fn
@@ -29,9 +30,10 @@ defmodule CoinWebExchangeRatesApiTest do
           {:error, :socket_closed_remotely}
       end)
 
-      res = Api.response()
-
-      assert {:error, :api_error} = res
+      assert log = capture_log(fn ->
+        assert {:error, :api_error} = Api.response()
+      end)
+      assert log =~ "Error when try to retrieve response"
     end
   end
 
@@ -53,9 +55,10 @@ defmodule CoinWebExchangeRatesApiTest do
           {:error, :socket_closed_remotely}
       end)
 
-      res = Api.rate()
-
-      assert {:error, :api_error} = res
+      assert log = capture_log(fn ->
+        assert {:error, :api_error} = Api.rate()
+      end)
+      assert log =~ "Error when try to get rate from the body"
     end
   end
 
@@ -77,9 +80,10 @@ defmodule CoinWebExchangeRatesApiTest do
           {:error, :socket_closed_remotely}
       end)
 
-      res = Api.timestamp
-
-      assert {:error, :api_error} = res
+      assert log = capture_log(fn ->
+        assert {:error, :api_error} = Api.timestamp()
+      end)
+      assert log =~ "Error when try to get timestamp from body"
     end
   end
 end

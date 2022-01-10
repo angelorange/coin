@@ -16,7 +16,10 @@ defmodule CoinWebExchangeRatesApi do
   def response do
     case get("/latest?access_key=#{@key}&symbols=USD,BRL,JPY,EUR") do
       {:ok, %Tesla.Env{status: 200, body: %{"success" => true}} = res} -> {:ok, res.body}
-      _ -> {:error, :api_error}
+
+      error ->
+        Logger.warn("Error when try to retrieve response from exchange rates api, #{inspect error}")
+        {:error, :api_error}
     end
   end
 
@@ -28,7 +31,9 @@ defmodule CoinWebExchangeRatesApi do
   def rate do
     case response() do
       {:ok, body} -> {:ok, body["rates"]}
-      _ -> {:error, :api_error}
+      _ ->
+        Logger.warn("Error when try to get rate from the body")
+        {:error, :api_error}
     end
   end
 
@@ -43,7 +48,9 @@ defmodule CoinWebExchangeRatesApi do
         epoch = body["timestamp"]
         {:ok, Timex.parse("#{epoch}", "{s-epoch}")}
 
-      _ -> {:error, :api_error}
+      _ ->
+        Logger.warn("Error when try to get timestamp from body")
+        {:error, :api_error}
     end
   end
 end
