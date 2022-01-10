@@ -46,7 +46,10 @@ defmodule Coin.MixProject do
       {:jason, "~> 1.2"},
       {:ex_machina, "~> 2.7.0"},
       {:credo, "~> 1.6", only: [:dev, :test], runtime: false},
+      {:tesla, "~> 1.4"},
       {:faker, "~> 0.17", only: :test},
+      {:nebulex, "~> 2.2"},
+      {:timex, "~> 3.0"},
       {:plug_cowboy, "~> 2.5"}
     ]
   end
