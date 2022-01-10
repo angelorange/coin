@@ -17,7 +17,7 @@ defmodule CoinWeb.UserControllerTest do
   describe "show" do
     test "a error when get a user that doenst exist", %{conn: conn} do
       conn = get(conn, "/api/users/0")
-      assert expected = json_response(conn, 404)
+      assert json_response(conn, 404)
     end
   end
 
