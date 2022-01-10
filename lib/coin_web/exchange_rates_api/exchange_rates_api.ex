@@ -15,10 +15,14 @@ defmodule CoinWebExchangeRatesApi do
   @spec response() :: {:ok, map()} | {:error, :api_error}
   def response do
     case get("/latest?access_key=#{@key}&symbols=USD,BRL,JPY,EUR") do
-      {:ok, %Tesla.Env{status: 200, body: %{"success" => true}} = res} -> {:ok, res.body}
+      {:ok, %Tesla.Env{status: 200, body: %{"success" => true}} = res} ->
+        {:ok, res.body}
 
       error ->
-        Logger.warn("Error when try to retrieve response from exchange rates api, #{inspect error}")
+        Logger.warn(
+          "Error when try to retrieve response from exchange rates api, #{inspect(error)}"
+        )
+
         {:error, :api_error}
     end
   end
@@ -30,7 +34,9 @@ defmodule CoinWebExchangeRatesApi do
   @spec rate() :: {:ok, map()} | {:error, :api_error}
   def rate do
     case response() do
-      {:ok, body} -> {:ok, body["rates"]}
+      {:ok, body} ->
+        {:ok, body["rates"]}
+
       _ ->
         Logger.warn("Error when try to get rate from the body")
         {:error, :api_error}

@@ -1,6 +1,6 @@
 defmodule CoinWebExchangeRatesApiTest do
-	use Coin.DataCase
-	alias CoinWebExchangeRatesApi, as: Api
+  use Coin.DataCase
+  alias CoinWebExchangeRatesApi, as: Api
   import ExUnit.CaptureLog
 
   setup do
@@ -30,9 +30,11 @@ defmodule CoinWebExchangeRatesApiTest do
           {:error, :socket_closed_remotely}
       end)
 
-      assert log = capture_log(fn ->
-        assert {:error, :api_error} = Api.response()
-      end)
+      assert log =
+               capture_log(fn ->
+                 assert {:error, :api_error} = Api.response()
+               end)
+
       assert log =~ "Error when try to retrieve response"
     end
   end
@@ -41,7 +43,7 @@ defmodule CoinWebExchangeRatesApiTest do
     test "successfully get the data" do
       Tesla.Mock.mock(fn
         %{method: :get} ->
-          %Tesla.Env{status: 200, body: %{"rates" => %{"EUR" => 1},"success" => true}}
+          %Tesla.Env{status: 200, body: %{"rates" => %{"EUR" => 1}, "success" => true}}
       end)
 
       res = Api.rate()
@@ -55,9 +57,11 @@ defmodule CoinWebExchangeRatesApiTest do
           {:error, :socket_closed_remotely}
       end)
 
-      assert log = capture_log(fn ->
-        assert {:error, :api_error} = Api.rate()
-      end)
+      assert log =
+               capture_log(fn ->
+                 assert {:error, :api_error} = Api.rate()
+               end)
+
       assert log =~ "Error when try to get rate from the body"
     end
   end
@@ -66,10 +70,10 @@ defmodule CoinWebExchangeRatesApiTest do
     test "successfully get the data" do
       Tesla.Mock.mock(fn
         %{method: :get} ->
-          %Tesla.Env{status: 200, body: %{"success" => true, "timestamp" => 1641846244}}
+          %Tesla.Env{status: 200, body: %{"success" => true, "timestamp" => 1_641_846_244}}
       end)
 
-      res = Api.timestamp
+      res = Api.timestamp()
 
       assert res = {:ok, ~U[2022-01-10 20:24:04Z]}
     end
@@ -80,9 +84,11 @@ defmodule CoinWebExchangeRatesApiTest do
           {:error, :socket_closed_remotely}
       end)
 
-      assert log = capture_log(fn ->
-        assert {:error, :api_error} = Api.timestamp()
-      end)
+      assert log =
+               capture_log(fn ->
+                 assert {:error, :api_error} = Api.timestamp()
+               end)
+
       assert log =~ "Error when try to get timestamp from body"
     end
   end

@@ -28,10 +28,12 @@ defmodule Coin.AccountsTest do
     end
 
     test "create_user/1 with invalid data returns error changeset" do
-      params = params_for(:user, %{
-        email: nil,
-        name: nil
-      })
+      params =
+        params_for(:user, %{
+          email: nil,
+          name: nil
+        })
+
       assert {:error, %Ecto.Changeset{}} = Accounts.create_user(params)
     end
 
@@ -46,10 +48,12 @@ defmodule Coin.AccountsTest do
 
     test "update_user/2 with invalid data returns error changeset" do
       user = insert(:user)
+
       params = %{
         name: nil,
         email: nil
       }
+
       assert {:error, %Ecto.Changeset{}} = Accounts.update_user(user, params)
       assert user == Accounts.get_user!(user.id)
     end

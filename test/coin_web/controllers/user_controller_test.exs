@@ -33,10 +33,12 @@ defmodule CoinWeb.UserControllerTest do
     end
 
     test "renders errors when data is invalid", %{conn: conn} do
-      params = params_for(:user, %{
-        email: nil,
-        name: nil
-      })
+      params =
+        params_for(:user, %{
+          email: nil,
+          name: nil
+        })
+
       conn = post(conn, Routes.user_path(conn, :create), user: params)
       assert json_response(conn, 422)["errors"] != %{}
     end
@@ -62,6 +64,7 @@ defmodule CoinWeb.UserControllerTest do
         name: nil,
         email: nil
       }
+
       conn = put(conn, Routes.user_path(conn, :update, user), user: params)
       assert json_response(conn, 422)["errors"] != %{}
     end

@@ -23,7 +23,6 @@ defmodule CoinWeb.UserController do
     with {:ok, user} <- Accounts.get_user(id) do
       render(conn, "show.json", user: user)
     end
-
   end
 
   def update(conn, %{"id" => id, "user" => user_params}) do
