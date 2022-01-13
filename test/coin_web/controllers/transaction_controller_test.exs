@@ -7,63 +7,49 @@ defmodule CoinWeb.TransactionControllerTest do
     {:ok, conn: put_req_header(conn, "accept", "application/json")}
   end
 
-  describe "index" do
-    test "lists all transactions", %{conn: conn} do
-      conn = get(conn, Routes.transaction_path(conn, :index))
-      assert json_response(conn, 200)["data"] == []
-    end
-  end
-
   describe "create transaction" do
+    setup do
+      body = %{
+        "success" => true,
+        "timestamp" => 1642090443,
+        "base" => "EUR",
+        "rates" => %{"BRL" => 6.319786, "EUR" => 1, "JPY" => 130.752433, "USD" => 1.146217}
+      }
+
+      Tesla.Mock.mock(fn
+        %{method: :get} ->
+          %Tesla.Env{status: 200, body: body}
+      end)
+
+      :ok
+    end
+
     test "renders transaction when data is valid", %{conn: conn} do
       user = insert(:user)
-      params = params_for(:transaction, %{user_id: user.id})
+      params = %{
+        user_id: user.id,
+        first_coin: "USD",
+        first_value: 6000,
+        final_coin: "BRL"
+      }
 
       conn = post(conn, Routes.transaction_path(conn, :create), transaction: params)
 
       assert expected = json_response(conn, 201)["data"]
       assert expected["first_coin"] == params.first_coin
+      assert expected["final_coin"] == params.final_coin
+      assert expected["first_value"] == "$60.00"
+      assert expected["final_value"] == "R$330.82"
     end
 
     test "renders errors when data is invalid", %{conn: conn} do
       params = params_for(:transaction, %{
-        first_coin: nil,
-        final_coin: nil,
-        first_value: nil,
-        final_value: nil
+        first_coin: "BTC",
+        final_coin: "SOL",
+        first_value: 10,
+        final_value: 0
       })
       conn = post(conn, Routes.transaction_path(conn, :create), transaction: params)
-      assert json_response(conn, 422)["errors"] != %{}
-    end
-  end
-
-  describe "update transaction" do
-    setup [:create_transaction]
-
-    test "renders transaction when data is valid", %{conn: conn, transaction: transaction} do
-      user = insert(:user)
-      params = %{
-        first_coin: transaction.first_coin,
-        final_coin: transaction.final_coin,
-        first_value: transaction.first_value,
-        final_value: transaction.final_value,
-        user_id: user.id
-      }
-
-      conn = put(conn, Routes.transaction_path(conn, :update, transaction), transaction: params)
-      assert expected = json_response(conn, 200)["data"]
-      assert expected["first_coin"] == params.first_coin
-    end
-
-    test "renders errors when data is invalid", %{conn: conn, transaction: transaction} do
-      params = %{
-        first_coin: nil,
-        final_coin: nil,
-        first_value: nil,
-        final_value: nil
-      }
-
-      conn = put(conn, Routes.transaction_path(conn, :update, transaction), transaction: params)
       assert json_response(conn, 422)["errors"] != %{}
     end
   end

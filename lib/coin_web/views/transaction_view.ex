@@ -10,13 +10,17 @@ defmodule CoinWeb.TransactionView do
     %{data: render_one(transaction, TransactionView, "transaction.json")}
   end
 
-  def render("transaction.json", %{transaction: transaction}) do
+  def render("transaction.json", %{transaction: t}) do
     %{
-      id: transaction.id,
-      first_coin: transaction.first_coin,
-      first_value: transaction.first_value,
-      final_value: transaction.final_value,
-      final_coin: transaction.final_coin
+      id: t.id,
+      first_coin: t.first_coin,
+      first_value: to_string(t.first_value, t.first_coin),
+      final_value: to_string(t.final_value, t.final_coin),
+      final_coin: t.final_coin
     }
+  end
+
+  defp to_string(value, coin) do
+    Money.new(value, coin |> String.to_atom) |> Money.to_string()
   end
 end

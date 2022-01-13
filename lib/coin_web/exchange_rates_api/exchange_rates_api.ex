@@ -1,4 +1,4 @@
-defmodule CoinWebExchangeRatesApi do
+defmodule CoinWeb.ExchangeRatesApi do
   use Tesla
   require Logger
 
@@ -6,7 +6,7 @@ defmodule CoinWebExchangeRatesApi do
   plug Tesla.Middleware.Headers, [{"content-type", "application/json"}]
   plug Tesla.Middleware.JSON
 
-  @key "90ce04a4eedda3a42e538541546fb543"
+  @key "2d7894e66abd33754b9bfeb455bdb4ea"
 
   @doc """
   Returns the body of the response from the ExchangeRates.

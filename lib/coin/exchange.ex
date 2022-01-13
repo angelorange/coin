@@ -4,9 +4,10 @@ defmodule Coin.Exchange do
   """
 
   import Ecto.Query, warn: false
-  alias Coin.Repo
 
   alias Coin.Exchange.Transaction
+  alias Coin.Repo
+  alias CoinWeb.ExchangeRatesApi, as: Api
 
   @doc """
   Returns the list of transactions.
@@ -88,4 +89,18 @@ defmodule Coin.Exchange do
   def delete_transaction(%Transaction{} = transaction) do
     Repo.delete(transaction)
   end
+
+  def calc(%{"first_value" => _, "final_coin" => _, "first_coin" => _} = args) do
+    {:ok, rate} = Api.rate()
+
+    value =
+      args["first_value"]
+      |> Kernel./(rate[args["first_coin"]] || 1)
+      |> Kernel.*(rate[args["final_coin"]] || 1)
+      |> round
+
+    {:ok, Map.merge(args, %{"final_value" => value})}
+  end
+
+  def calc(_args), do: {:error, :invalid_args}
 end

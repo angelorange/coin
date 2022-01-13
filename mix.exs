@@ -50,6 +50,7 @@ defmodule Coin.MixProject do
       {:faker, "~> 0.17", only: :test},
       {:nebulex, "~> 2.2"},
       {:timex, "~> 3.0"},
+      {:money, "~> 1.9"},
       {:plug_cowboy, "~> 2.5"}
     ]
   end

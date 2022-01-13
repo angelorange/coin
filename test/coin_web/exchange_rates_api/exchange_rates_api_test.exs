@@ -1,16 +1,7 @@
-defmodule CoinWebExchangeRatesApiTest do
+defmodule CoinWeb.ExchangeRatesApiTest do
   use Coin.DataCase
-  alias CoinWebExchangeRatesApi, as: Api
+  alias CoinWeb.ExchangeRatesApi, as: Api
   import ExUnit.CaptureLog
-
-  setup do
-    Tesla.Mock.mock(fn
-      %{method: :get} ->
-        %Tesla.Env{status: 200, body: "hello"}
-    end)
-
-    :ok
-  end
 
   describe "response/0" do
     test "successfully get the data" do
