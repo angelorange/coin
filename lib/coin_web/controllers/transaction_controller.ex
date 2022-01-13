@@ -16,6 +16,11 @@ defmodule CoinWeb.TransactionController do
     end
   end
 
+  def index(conn, params) do
+    transactions = Exchange.list_transactions_by_user(params["user_id"])
+    render(conn, "index.json", transactions: transactions)
+  end
+
   def show(conn, %{"id" => id}) do
     transaction = Exchange.get_transaction!(id)
     render(conn, "show.json", transaction: transaction)

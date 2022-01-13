@@ -23,6 +23,16 @@ defmodule Coin.Exchange do
   end
 
   @doc """
+  List all transactions by a User.
+  """
+  @spec list_transactions_by_user(Integer.t() | String.t()) :: list()
+  def list_transactions_by_user(user_id) do
+    Transaction
+    |> where([t], t.user_id == ^user_id)
+    |> Repo.all()
+  end
+
+  @doc """
   Gets a single transaction.
 
   Raises `Ecto.NoResultsError` if the Transaction does not exist.

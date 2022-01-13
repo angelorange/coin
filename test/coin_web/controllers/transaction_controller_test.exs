@@ -7,6 +7,21 @@ defmodule CoinWeb.TransactionControllerTest do
     {:ok, conn: put_req_header(conn, "accept", "application/json")}
   end
 
+  describe "index" do
+    test "lists all transactions by a user", %{conn: conn} do
+      user = insert(:user)
+      transaction = insert(:transaction, %{user: user})
+      insert(:transaction)
+
+      params = %{user_id: user.id}
+
+      conn = get(conn, Routes.transaction_path(conn, :index, params))
+      assert [expected] = json_response(conn, 200)["data"]
+      assert expected["user_id"] == params.user_id
+      assert expected["id"] == transaction.id
+    end
+  end
+
   describe "create transaction" do
     setup do
       body = %{

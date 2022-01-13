@@ -17,7 +17,8 @@ defmodule CoinWeb.TransactionView do
       first_value: to_string(t.first_value, t.first_coin),
       final_value: to_string(t.final_value, t.final_coin),
       final_coin: t.final_coin,
-      timestamps: t.timestamps
+      timestamps: t.timestamps,
+      user_id: t.user_id
     }
   end
 
