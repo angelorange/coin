@@ -24,7 +24,7 @@ defmodule CoinWeb.TransactionControllerTest do
       :ok
     end
 
-    test "renders transaction when data is valid", %{conn: conn} do
+    test "renders transaction when transfer USD to BRL", %{conn: conn} do
       user = insert(:user)
 
       params = %{
@@ -41,6 +41,44 @@ defmodule CoinWeb.TransactionControllerTest do
       assert expected["final_coin"] == params.final_coin
       assert expected["first_value"] == "$60.00"
       assert expected["final_value"] == "R$330.82"
+    end
+
+    test "renders transaction when transfer BRL to USD", %{conn: conn} do
+      user = insert(:user)
+
+      params = %{
+        user_id: user.id,
+        first_coin: "BRL",
+        first_value: 33000,
+        final_coin: "USD"
+      }
+
+      conn = post(conn, Routes.transaction_path(conn, :create), transaction: params)
+
+      assert expected = json_response(conn, 201)["data"]
+      assert expected["first_coin"] == params.first_coin
+      assert expected["final_coin"] == params.final_coin
+      assert expected["first_value"] == "R$330.00"
+      assert expected["final_value"] == "$59.85"
+    end
+
+    test "renders transaction when transfer USD to JPY", %{conn: conn} do
+      user = insert(:user)
+
+      params = %{
+        user_id: user.id,
+        first_coin: "USD",
+        first_value: 100_000,
+        final_coin: "JPY"
+      }
+
+      conn = post(conn, Routes.transaction_path(conn, :create), transaction: params)
+
+      assert expected = json_response(conn, 201)["data"]
+      assert expected["first_coin"] == params.first_coin
+      assert expected["final_coin"] == params.final_coin
+      assert expected["first_value"] == "$1,000.00"
+      assert expected["final_value"] == "¥11,407,302"
     end
 
     test "renders errors when data is invalid", %{conn: conn} do
