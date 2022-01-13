@@ -7,13 +7,14 @@ defmodule Coin.Exchange.Transaction do
     field :final_value, :integer
     field :first_coin, :string
     field :first_value, :integer
+    field :timestamps, :utc_datetime
 
     belongs_to(:user, Coin.Accounts.User)
 
     timestamps()
   end
 
-  @required ~w(final_coin user_id first_coin first_value final_value)a
+  @required ~w(final_coin user_id first_coin first_value final_value timestamps)a
   @doc false
   def changeset(transaction, attrs) do
     transaction

@@ -92,6 +92,7 @@ defmodule Coin.Exchange do
 
   def calc(%{"first_value" => _, "final_coin" => _, "first_coin" => _} = args) do
     {:ok, rate} = Api.rate()
+    {:ok, timestamps} = Api.timestamp()
 
     value =
       args["first_value"]
@@ -99,7 +100,7 @@ defmodule Coin.Exchange do
       |> Kernel.*(rate[args["final_coin"]] || 1)
       |> round
 
-    {:ok, Map.merge(args, %{"final_value" => value})}
+    {:ok, Map.merge(args, %{"final_value" => value, "timestamps" => timestamps})}
   end
 
   def calc(_args), do: {:error, :invalid_args}

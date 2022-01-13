@@ -6,7 +6,8 @@ defmodule Coin.TransactionFactory do
           first_coin: "EUR",
           final_coin: "BRL",
           final_value: 633,
-          first_value: 100
+          first_value: 100,
+          timestamps: DateTime.utc_now()
         }
       end
     end
