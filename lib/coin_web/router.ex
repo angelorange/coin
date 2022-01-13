@@ -9,6 +9,7 @@ defmodule CoinWeb.Router do
     pipe_through :api
 
     resources "/users", UserController, except: [:new, :edit]
+    resources "/transactions", TransactionController, except: [:new, :edit]
   end
 
   if Mix.env() in [:dev, :test] do

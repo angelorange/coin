@@ -52,7 +52,7 @@ defmodule CoinWebExchangeRatesApi do
     case response() do
       {:ok, body} ->
         epoch = body["timestamp"]
-        {:ok, Timex.parse("#{epoch}", "{s-epoch}")}
+        Timex.parse("#{epoch}", "{s-epoch}")
 
       _ ->
         Logger.warn("Error when try to get timestamp from body")

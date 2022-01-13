@@ -19,6 +19,11 @@ defmodule Coin.AccountsTest do
       assert Accounts.get_user!(user.id) == user
     end
 
+    test "get_user/1 returns the user with given id" do
+      user = insert(:user)
+      assert {:ok, ^user} = Accounts.get_user(user.id)
+    end
+
     test "create_user/1 with valid data creates a user" do
       expected = params_for(:user, email: "gojou@gmail.com")
 

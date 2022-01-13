@@ -75,7 +75,7 @@ defmodule CoinWebExchangeRatesApiTest do
 
       res = Api.timestamp()
 
-      assert res = {:ok, ~U[2022-01-10 20:24:04Z]}
+      assert {:ok, ~U[2022-01-10 20:24:04Z]} == res
     end
 
     test "fails to get the data" do
