@@ -20,13 +20,12 @@ defmodule Coin.ExchangeTest do
     end
 
     test "create_transaction/1 with valid data creates a transaction" do
-      expected = params_for(:transaction, first_coin: "EUR", final_coin: "JPY", first_value: 10, final_value: 100)
+      user = insert(:user)
+      expected = params_for(:transaction, first_coin: "EUR", final_coin: "JPY", first_value: 10, final_value: 100, user_id: user.id)
 
       assert {:ok, %Transaction{} = transaction} = Exchange.create_transaction(expected)
-      assert transaction.final_coin == expected.final_coin
-      assert transaction.final_value == expected.final_value
-      assert transaction.first_coin == expected.first_coin
       assert transaction.first_value == expected.first_value
+      assert transaction.final_value == expected.final_value
     end
 
     test "create_transaction/1 with invalid data returns error changeset" do
@@ -42,7 +41,8 @@ defmodule Coin.ExchangeTest do
     end
 
     test "update_transaction/2 with valid data updates the transaction" do
-      transaction = insert(:transaction)
+      user = insert(:user)
+      transaction = insert(:transaction, %{user_id: user.id})
       updated = %{final_coin: "USD", final_value: 87, first_coin: "JPY", first_value: 100}
 
       assert {:ok, %Transaction{} = transaction} = Exchange.update_transaction(transaction, updated)

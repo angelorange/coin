@@ -9,10 +9,13 @@ defmodule Coin.Accounts.User do
     timestamps()
   end
 
+  @required ~w(email name)a
   @doc false
   def changeset(user, attrs) do
     user
-    |> cast(attrs, [:name, :email])
-    |> validate_required([:name, :email])
+    |> cast(attrs, @required)
+    |> validate_required(@required)
+    |> unique_constraint(:email)
+    |> validate_format(:email, ~r/@/)
   end
 end

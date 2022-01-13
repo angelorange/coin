@@ -5,8 +5,8 @@ defmodule Coin.TransactionFactory do
         %Coin.Exchange.Transaction{
           first_coin: "EUR",
           final_coin: "BRL",
-          first_value: 100,
-          final_value: 633
+          final_value: 633,
+          first_value: 100
         }
       end
     end

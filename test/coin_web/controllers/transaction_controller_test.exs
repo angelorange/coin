@@ -16,7 +16,8 @@ defmodule CoinWeb.TransactionControllerTest do
 
   describe "create transaction" do
     test "renders transaction when data is valid", %{conn: conn} do
-      params = params_for(:transaction)
+      user = insert(:user)
+      params = params_for(:transaction, %{user_id: user.id})
 
       conn = post(conn, Routes.transaction_path(conn, :create), transaction: params)
 
@@ -40,11 +41,13 @@ defmodule CoinWeb.TransactionControllerTest do
     setup [:create_transaction]
 
     test "renders transaction when data is valid", %{conn: conn, transaction: transaction} do
+      user = insert(:user)
       params = %{
         first_coin: transaction.first_coin,
         final_coin: transaction.final_coin,
         first_value: transaction.first_value,
-        final_value: transaction.final_value
+        final_value: transaction.final_value,
+        user_id: user.id
       }
 
       conn = put(conn, Routes.transaction_path(conn, :update, transaction), transaction: params)
