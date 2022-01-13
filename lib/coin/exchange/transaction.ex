@@ -13,7 +13,6 @@ defmodule Coin.Exchange.Transaction do
     timestamps()
   end
 
-
   @required ~w(final_coin user_id first_coin first_value final_value)a
   @doc false
   def changeset(transaction, attrs) do

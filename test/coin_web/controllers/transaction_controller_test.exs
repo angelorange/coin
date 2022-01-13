@@ -11,7 +11,7 @@ defmodule CoinWeb.TransactionControllerTest do
     setup do
       body = %{
         "success" => true,
-        "timestamp" => 1642090443,
+        "timestamp" => 1_642_090_443,
         "base" => "EUR",
         "rates" => %{"BRL" => 6.319786, "EUR" => 1, "JPY" => 130.752433, "USD" => 1.146217}
       }
@@ -26,6 +26,7 @@ defmodule CoinWeb.TransactionControllerTest do
 
     test "renders transaction when data is valid", %{conn: conn} do
       user = insert(:user)
+
       params = %{
         user_id: user.id,
         first_coin: "USD",
@@ -43,12 +44,14 @@ defmodule CoinWeb.TransactionControllerTest do
     end
 
     test "renders errors when data is invalid", %{conn: conn} do
-      params = params_for(:transaction, %{
-        first_coin: "BTC",
-        final_coin: "SOL",
-        first_value: 10,
-        final_value: 0
-      })
+      params =
+        params_for(:transaction, %{
+          first_coin: "BTC",
+          final_coin: "SOL",
+          first_value: 10,
+          final_value: 0
+        })
+
       conn = post(conn, Routes.transaction_path(conn, :create), transaction: params)
       assert json_response(conn, 422)["errors"] != %{}
     end

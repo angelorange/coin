@@ -21,6 +21,6 @@ defmodule CoinWeb.TransactionView do
   end
 
   defp to_string(value, coin) do
-    Money.new(value, coin |> String.to_atom) |> Money.to_string()
+    value |> Money.new(coin |> String.to_atom()) |> Money.to_string()
   end
 end

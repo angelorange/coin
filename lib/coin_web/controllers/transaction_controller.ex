@@ -8,7 +8,7 @@ defmodule CoinWeb.TransactionController do
 
   def create(conn, %{"transaction" => transaction_params}) do
     with {:ok, params} <- Exchange.calc(transaction_params),
-    {:ok, %Transaction{} = transaction} <- Exchange.create_transaction(params) do
+         {:ok, %Transaction{} = transaction} <- Exchange.create_transaction(params) do
       conn
       |> put_status(:created)
       |> put_resp_header("location", Routes.transaction_path(conn, :show, transaction))
