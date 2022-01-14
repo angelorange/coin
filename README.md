@@ -31,6 +31,10 @@ To avoid issues with numbers, all the numbers are Integers.
 For example, if you want to send $10.00, you need to send in the request body 1000. 
 So, in the other words, everything is in cents.
 
+## Options/ Endpoint
+  There's a folder in the project root which is called doc. 
+  Inside of this doc, we have the Insomnia json where it has already somethings created there.
+
 ### Endpoint
 
  - Create user ( post /api/users )
@@ -74,7 +78,6 @@ So, in the other words, everything is in cents.
   - Show transaction (get /api/transactions/:id )
 
   - list all transactions by user (get /api/transactions?user_id=1)
-
 
  ### Features
  The features were split between: 
