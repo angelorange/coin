@@ -79,10 +79,10 @@ So, in the other words, everything is in cents.
  ### Features
  The features were split between: 
  - Users
- - Transactions and Api conversion coin
+ - Transactions and Api implementation
 
  ### Chosen Technology motivation
- - Elixir is a very simple language to work with. With The Phoenix Framework, it's even easier to do a lot of things, and also for being known for its speed.
+ - Elixir is a very simple language to work with. With The Phoenix Framework, it's even easier to do a lot of things, and also for its speed too.
 
 ## Made by
 
