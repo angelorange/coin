@@ -56,9 +56,9 @@ So, in the other words, everything is in cents.
 
   - Delete user (delete /api/users/:id )
 
-
- - create transactions (post /api/transactions)
   ```
+  - create transactions (post /api/transactions)
+
   {
     "transaction": {
       "user_id": "1",
@@ -69,24 +69,11 @@ So, in the other words, everything is in cents.
   }
   ```
 
-   - edit transactions (update /api/transactions)
-  ```
-  {
-    "transaction": {
-      "first_coin": "USD",
-      "first_value": 1000,
-      "final_coin": "JPY",
-    }
-  }
-  ```
-
   - Delete transaction (delete /api/transactions/:id )
 
-  - Show transaction (show /api/transactions/:id )
+  - Show transaction (get /api/transactions/:id )
 
-  - Index transaction (index /api/transactions/:id )
-
-  - list all transactions by user (get /api/transactions/:id)
+  - list all transactions by user (get /api/transactions?user_id=1)
 
 
  ### Features

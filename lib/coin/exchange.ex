@@ -101,12 +101,12 @@ defmodule Coin.Exchange do
   end
 
   @doc """
-  Calculates the first amount currency and gives the final currency.
+  Calculates the first amount currency and gives the final currency
   """
   @spec calc(map()) :: {:ok, map()} | {:error, :invalid_args} | {:error, :api_error}
   def calc(%{"first_value" => _, "final_coin" => _, "first_coin" => _} = args) do
     with {:ok, rate} <- Api.rate(),
-         {:ok, timestamps} <- Api.timestamp() do
+      {:ok, timestamps} <- Api.timestamp() do
       value =
         args["first_value"]
         |> Kernel./(rate[args["first_coin"]] || 1)
