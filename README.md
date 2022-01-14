@@ -33,7 +33,7 @@ So, in the other words, everything is in cents.
 
 ## Options/ Endpoint
   There's a folder in the project root which is called doc. 
-  Inside of this doc, we have the Insomnia json where it has already somethings created there.
+  Inside of this doc, we have the Insomnia json where it already has somethings created there.
 
 ### Endpoint
 
