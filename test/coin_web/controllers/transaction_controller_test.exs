@@ -108,6 +108,25 @@ defmodule CoinWeb.TransactionControllerTest do
       conn = post(conn, Routes.transaction_path(conn, :create), transaction: params)
       assert json_response(conn, 422)["errors"] != %{}
     end
+
+    test "renders errors when third api fails", %{conn: conn} do
+      Tesla.Mock.mock(fn
+        %{method: :get} ->
+          {:error, :socket_closed_remotely}
+      end)
+
+      user = insert(:user)
+
+      params = %{
+        user_id: user.id,
+        first_coin: "USD",
+        first_value: 6000,
+        final_coin: "BRL"
+      }
+
+      conn = post(conn, Routes.transaction_path(conn, :create), transaction: params)
+      assert json_response(conn, 503)
+    end
   end
 
   describe "delete transaction" do

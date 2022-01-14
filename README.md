@@ -26,6 +26,11 @@ It’s a RESTfull API that converts currencies to others. Currently, the convers
 
  You can use postman, or a similar app, to send json to this API.The endpoint and the item's list are below.
 
+## Explanation
+To avoid issues with numbers, all the numbers are Integers. 
+For example, if you want to send $10.00, you need to send in the request body 1000. 
+So, in the other words, everything is in cents.
+
 ### Endpoint
 
  - Create user ( post /api/users )
@@ -46,15 +51,11 @@ It’s a RESTfull API that converts currencies to others. Currently, the convers
       "name": "nini"
     }
   }
-
   ```
 
-
-  ```
 
   - Delete user (delete /api/users/:id )
 
-  ```
 
  - create transactions (post /api/transactions)
   ```
@@ -62,13 +63,30 @@ It’s a RESTfull API that converts currencies to others. Currently, the convers
     "transaction": {
       "user_id": "1",
       "first_coin": "USD",
-      "first_value": 10,
+      "first_value": 10000,
       "final_coin": "JPY",
     }
   }
   ```
 
- - list all transactions by user (get /api/transactions/:id)
+   - edit transactions (update /api/transactions)
+  ```
+  {
+    "transaction": {
+      "first_coin": "USD",
+      "first_value": 1000,
+      "final_coin": "JPY",
+    }
+  }
+  ```
+
+  - Delete transaction (delete /api/transactions/:id )
+
+  - Show transaction (show /api/transactions/:id )
+
+  - Index transaction (index /api/transactions/:id )
+
+  - list all transactions by user (get /api/transactions/:id)
 
 
  ### Features

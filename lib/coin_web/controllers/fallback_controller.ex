@@ -21,4 +21,11 @@ defmodule CoinWeb.FallbackController do
     |> put_view(CoinWeb.ErrorView)
     |> render(:"404")
   end
+
+  def call(conn, {:error, :api_error}) do
+    conn
+    |> put_status(:service_unavailable)
+    |> put_view(CoinWeb.ErrorView)
+    |> render(:"503")
+  end
 end

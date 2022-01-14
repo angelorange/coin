@@ -100,17 +100,23 @@ defmodule Coin.Exchange do
     Repo.delete(transaction)
   end
 
+  @doc """
+  Calculates the first amount currency and gives the final currency.
+  """
+  @spec calc(map()) :: {:ok, map()} | {:error, :invalid_args} | {:error, :api_error}
   def calc(%{"first_value" => _, "final_coin" => _, "first_coin" => _} = args) do
-    {:ok, rate} = Api.rate()
-    {:ok, timestamps} = Api.timestamp()
+    with {:ok, rate} <- Api.rate(),
+         {:ok, timestamps} <- Api.timestamp() do
+      value =
+        args["first_value"]
+        |> Kernel./(rate[args["first_coin"]] || 1)
+        |> Kernel.*(rate[args["final_coin"]] || 1)
+        |> round
 
-    value =
-      args["first_value"]
-      |> Kernel./(rate[args["first_coin"]] || 1)
-      |> Kernel.*(rate[args["final_coin"]] || 1)
-      |> round
-
-    {:ok, Map.merge(args, %{"final_value" => value, "timestamps" => timestamps})}
+      {:ok, Map.merge(args, %{"final_value" => value, "timestamps" => timestamps})}
+    else
+      _ -> {:error, :api_error}
+    end
   end
 
   def calc(_args), do: {:error, :invalid_args}
